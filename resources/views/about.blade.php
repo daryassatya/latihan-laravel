@@ -1,18 +1,7 @@
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="css/style.css">
-    <title>Daryas Blog | About</title>
-</head>
-
-<body>
+@extends('layouts.main')
+@section('container')
     <h1>About Me</h1>
-    <h3>Dimas Aryasatya</h3>
-    <p>daryassatya@gmail.com</p>
-    <img src="img/DimasAryaSatya.png" alt="Foto Saya">
-</body>
-
-</html>
+    <h3>{{ $name }}</h3>
+    <p>{{ $email }}</p>
+    <img src="img/{{ $image }}" alt="Foto Saya">
+@endsection
