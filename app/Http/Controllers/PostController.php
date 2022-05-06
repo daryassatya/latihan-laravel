@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 
+// Tahap 4 - 06/05/2022
+
 class PostController extends Controller
 {
     public function index()
