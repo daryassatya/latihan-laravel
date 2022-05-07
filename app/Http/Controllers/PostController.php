@@ -16,11 +16,14 @@ class PostController extends Controller
         ]);
     }
 
-    public function detail($slug)
+    public function detail(Post $post)
     {
+        // Route Model Binding(Mengquery otomatis)
+        // $post harus sama dengan yang dikirim di route yaitu {post}
+        // Route::get('/posts/{post}', [PostController::class, 'detail'])->name('post.detail');
         return view('post', [
             'title' => 'Post Detail',
-            'posts' => Post::find($slug),
+            'posts' => $post,
         ]);
     }
 }

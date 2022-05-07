@@ -2,53 +2,52 @@
 
 namespace App\Models;
 
-// use Illuminate\Database\Eloquent\Factories\HasFactory;
-// use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-// class Post extends Model
-// {
-//     use HasFactory;
-// }
-
-class Post
+class Post extends Model
 {
-    private static $blog_posts = [
-        [
-            'title' => "Post Pertama",
-            'slug' => "post-pertama",
-            'author' => "Dimas Aryasatya",
-            'body' => "Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Unde maiores dignissimos possimus error ad, quam dolor sit totam similique ipsum tempore magnam enim repellendus ut dolorum a autem quod? Ex.",
-        ],
-        [
-            'title' => "Post Kedua",
-            'slug' => "post-kedua",
-            'author' => "Dimas Aryasatya",
-            'body' => "
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor placeat atque accusamus delectus? Obcaecati dolorem molestias pariatur voluptas ea dolore libero qui soluta necessitatibus? Assumenda, aspernatur? Repellendus ad sit totam voluptatem, fuga deserunt veniam saepe optio quia. Adipisci doloremque voluptatibus temporibus. Saepe tenetur ex aspernatur minus ea asperiores. Ex nemo, eaque perferendis repellat beatae excepturi consequuntur ea dignissimos illo nesciunt vitae incidunt voluptates aliquid culpa neque corporis omnis facilis pariatur dolores similique totam aperiam laudantium. Voluptates est incidunt perferendis maiores ullam praesentium eveniet ipsum deleniti cupiditate doloribus, mollitia itaque molestiae magnam, odit et. Accusantium, ex? Fugit quaerat repellendus numquam repellat.",
-        ],
-    ];
+    use HasFactory;
 
-    public static function all()
-    {
-        // return $this->blog_posts; // Jika Properti Biasa
-        return collect(self::$blog_posts);
-    }
+    //Bisa menggunakan ini:
+    // protected $fillable = ['title', 'excerpt', 'body']; // Selain ini maka TIDAK BOLEH diisi/diubah
 
-    public static function find($slug)
-    {
-        //  Cara tanpa Collection
-        // $posts = self::$blog_posts;
-        // $post = [];
-        // foreach ($posts as $p) {
-        //     if ($p['slug'] == $slug) {
-        //         $post = $p;
-        //     }
-        // }
-
-        $posts = static::all(); // Mengambil dari function diatas
-
-        return $posts->firstWhere('slug', $slug);
-    }
+    //Atau ini :
+    protected $guarded = ['id']; // Selain ini maka BOLEH diisi/diubah
 
 }
+
+// Coding dibawah ini, Jangan diUncomment !
+// Cara Create/Update dengan tinker :
+
+// Create Cara 1
+// $post = new Post();
+// $post->title = "Judul Ke Sekian";
+// $post->slug = "judul-ke-sekian";
+// $post->excerpt = "Lorem ipsum dolor, sit amet consectetur adipisicing elit.";
+// $post->body = "<p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque, a reprehenderit, cupiditate molestias eum voluptatibus sequi esse tempora, expedita aliquid dolor quo! Assumenda laborum dolorem voluptatum natus ratione optio dicta, aspernatur a harum eum blanditiis iusto maxime temporibus perspiciatis possimus? Sunt asperiores commodi soluta tenetur blanditiis possimus fugit itaque enim nemo sint, facilis repudiandae cupiditate quas impedit quis quasi quibusdam libero! Sunt laborum, placeat possimus rem rerum labore voluptatum sed consequatur atque dicta libero excepturi distinctio eos? Praesentium odit, accusamus laborum at suscipit similique cum reiciendis incidunt esse vero aut eveniet, rem accusantium molestias blanditiis repudiandae? Ipsa maiores soluta magnam.</p><p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima eos quo omnis adipisci nisi amet assumenda quos veniam ipsam repellendus possimus porro, vitae magnam explicabo excepturi officia animi sunt tenetur harum vel iusto molestiae beatae. Iusto culpa minima quisquam qui maiores nihil quam quia velit quidem reiciendis enim itaque sit nam provident cumque voluptates voluptate aliquid repellat, et est accusamus tempora earum ratione cupiditate. Quo esse adipisci voluptates delectus animi sint dolore numquam velit quisquam qui, quod, explicabo sapiente nobis vero eos labore voluptas neque. Similique iste unde placeat, odio, at, minus corporis soluta quidem facere quas provident vitae architecto!</p>";
+// $post->save();
+
+// Create Cara 2
+// Post::create([
+//     'title' => "Judul pertama",
+//     'slug' => "judul-pertama",
+//     'excerpt' => "Lorem ipsum pertama",
+//     'body' => "<p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque, a reprehenderit, cupiditate molestias eum voluptatibus sequi esse tempora, expedita aliquid dolor quo! Assumenda laborum dolorem voluptatum natus ratione optio dicta, aspernatur a harum eum blanditiis iusto maxime temporibus perspiciatis possimus? Sunt asperiores commodi soluta tenetur blanditiis possimus fugit itaque enim nemo sint, facilis repudiandae cupiditate quas impedit quis quasi quibusdam libero! Sunt laborum, placeat possimus rem rerum labore voluptatum sed consequatur atque dicta libero excepturi distinctio eos? Praesentium odit, accusamus laborum at suscipit similique cum reiciendis incidunt esse vero aut eveniet, rem accusantium molestias blanditiis repudiandae? Ipsa maiores soluta magnam.</p><p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima eos quo omnis adipisci nisi amet assumenda quos veniam ipsam repellendus possimus porro, vitae magnam explicabo excepturi officia animi sunt tenetur harum vel iusto molestiae beatae. Iusto culpa minima quisquam qui maiores nihil quam quia velit quidem reiciendis enim itaque sit nam provident cumque voluptates voluptate aliquid repellat, et est accusamus tempora earum ratione cupiditate. Quo esse adipisci voluptates delectus animi sint dolore numquam velit quisquam qui, quod, explicabo sapiente nobis vero eos labore voluptas neque. Similique iste unde placeat, odio, at, minus corporis soluta quidem facere quas provident vitae architecto!</p>",
+// ]);
+
+// Update Cara 1
+// // find()
+// Post::find(3)->update([
+//     'title' => "Judul Ketiga Berubah",
+// ]);
+
+// // where()
+// Post::where('title', "Judul Ketiga Berubah")->update([
+//     'excerpt' => "Excerpt Ini Diubah",
+// ]);
+
+// Update Cara 2
+// $post = Post::find(3);
+// $post->title = "Judul Ke Sekian..";
+// $post->save();
