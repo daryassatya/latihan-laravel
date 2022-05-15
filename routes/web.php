@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PostController;
+use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,6 +38,22 @@ Route::get('/about', function () {
         'image' => "DimasAryaSatya.png",
     ]);
 });
+
+// Route::get('/categories/{category::slug}', [CategoryController::class, ''])
+Route::get('/categories', function () {
+    return view('categories', [
+        'title' => 'Post Category',
+        'categories' => Category::all(),
+    ]);
+})->name('category');
+
+Route::get('/categories/{category:slug}', function (Category $category) {
+    return view('category', [
+        'title' => $category->name,
+        'posts' => $category->posts,
+        'category' => $category->name,
+    ]);
+})->name('category.spesific');
 
 // Tempat Menyimpan Codingan Route Lama
 

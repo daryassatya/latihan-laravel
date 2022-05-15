@@ -23,7 +23,7 @@ class PostController extends Controller
         // Route::get('/posts/{post}', [PostController::class, 'detail'])->name('post.detail');
         return view('post', [
             'title' => 'Post Detail',
-            'posts' => $post,
+            'post' => $post,
         ]);
     }
 }
