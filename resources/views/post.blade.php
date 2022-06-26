@@ -12,7 +12,7 @@
     'name' => 'Personal',
     'slug' => 'personal'
 ])
-
+a
 Post::create([
     'category_id' => 3,
     'title' => "Judul keempat",
