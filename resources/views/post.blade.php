@@ -1,12 +1,11 @@
 @extends('layouts.main')
 @section('container')
-    <article>
-        <h1>{{ $post->title }}</h1>
-        <p>By. Dimas Aryasatya in <a
-                href="{{ route('category.spesific', $post->category->slug) }}">{{ $post->category->name }}</a></p>
-        <p>{!! $post->body !!}</p>
-    </article>
-    <a href="{{ route('post') }}">Back to posts</a>
+    <h2>{{ $post->title }}</h2>
+    <p>By. <a href="#" class="text-decoration-none">{{ $post->user->name }}</a> in <a
+            href="{{ route('category.spesific', $post->category->slug) }}"
+            class="text-decoration-none">{{ $post->category->name }}</a></p>
+    <p>{!! $post->body !!}</p>
+    <a href="{{ route('post') }}" class="d-block">Back to posts</a>
 @endsection
 
 {{-- Category::create([
