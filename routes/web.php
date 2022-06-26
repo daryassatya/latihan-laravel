@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\PostController;
 use App\Models\Category;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -54,6 +55,15 @@ Route::get('/categories/{category:slug}', function (Category $category) {
         'category' => $category->name,
     ]);
 })->name('category.spesific');
+
+Route::get('/post/author/{author:username}', function (User $author) {
+    // dd($user->posts);
+    return view('posts', [
+        'title' => 'User Post',
+        'posts' => $author->posts,
+        // 'category' => $category->name,
+    ]);
+})->name('post.author');
 
 // Tempat Menyimpan Codingan Route Lama
 
