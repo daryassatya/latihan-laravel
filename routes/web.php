@@ -49,18 +49,17 @@ Route::get('/categories', function () {
 })->name('category');
 
 Route::get('/categories/{category:slug}', function (Category $category) {
-    return view('category', [
-        'title' => $category->name,
-        'posts' => $category->posts,
-        'category' => $category->name,
+    return view('posts', [
+        'title' => "Post By Category : $category->name",
+        'posts' => $category->posts->load(['category', 'author']),
     ]);
 })->name('category.spesific');
 
 Route::get('/post/author/{author:username}', function (User $author) {
     // dd($user->posts);
     return view('posts', [
-        'title' => 'User Post',
-        'posts' => $author->posts,
+        'title' => "Post By Author : $author->name",
+        'posts' => $author->posts->load(['category', 'author']),
         // 'category' => $category->name,
     ]);
 })->name('post.author');
