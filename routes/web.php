@@ -26,7 +26,7 @@ Route::get('/', function () {
     return view('home', [
         'title' => "Home",
     ]);
-});
+})->name('/');
 
 Route::get('/posts', [PostController::class, 'index'])->name('post');
 Route::get('/posts/{post:slug}', [PostController::class, 'detail'])->name('post.detail');
@@ -38,7 +38,7 @@ Route::get('/about', function () {
         'email' => "daryassatya@gmail.com",
         'image' => "DimasAryaSatya.png",
     ]);
-});
+})->name('about');
 
 // Route::get('/categories/{category::slug}', [CategoryController::class, ''])
 Route::get('/categories', function () {
@@ -51,7 +51,7 @@ Route::get('/categories', function () {
 Route::get('/categories/{category:slug}', function (Category $category) {
     return view('posts', [
         'title' => "Post By Category : $category->name",
-        'posts' => $category->posts->load(['category', 'author']),
+        'posts' => $category->posts,
     ]);
 })->name('category.spesific');
 
@@ -59,7 +59,7 @@ Route::get('/post/author/{author:username}', function (User $author) {
     // dd($user->posts);
     return view('posts', [
         'title' => "Post By Author : $author->name",
-        'posts' => $author->posts->load(['category', 'author']),
+        'posts' => $author->posts,
         // 'category' => $category->name,
     ]);
 })->name('post.author');

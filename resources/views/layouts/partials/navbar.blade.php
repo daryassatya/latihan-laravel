@@ -11,13 +11,20 @@
                     <a class="nav-link {{ $title == 'Home' ? 'active' : '' }}" href="/">Home</a>
                 </li> --}}
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->segment(1) == null ? 'active' : '' }}" href="/">Home</a>
+                    <a class="nav-link {{ request()->segment(1) == null ? 'active' : '' }}"
+                        href="{{ route('/') }}">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->segment(1) == 'posts' ? 'active' : '' }}" href="/posts">Posts</a>
+                    <a class="nav-link {{ request()->segment(1) == 'posts' ? 'active' : '' }}"
+                        href="{{ route('post') }}">Blog</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->segment(1) == 'about' ? 'active' : '' }}" href="/about">About</a>
+                    <a class="nav-link {{ request()->segment(1) == 'categories' ? 'active' : '' }}"
+                        href="{{ route('category') }}">Categories</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->segment(1) == 'about' ? 'active' : '' }}"
+                        href="{{ route('about') }}">About</a>
                 </li>
             </ul>
         </div>

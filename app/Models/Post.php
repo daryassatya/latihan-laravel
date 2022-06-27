@@ -15,12 +15,15 @@ class Post extends Model
     //Atau ini :
     protected $guarded = ['id']; // Selain ini maka BOLEH diisi/diubah
 
+    protected $with = ['category', 'author']; // Eager load, agar tidak perlu loop berulang2
+
     public function category()
     {
         return $this->belongsTo(Category::class);
     }
 
-    public function author(){
+    public function author()
+    {
         return $this->belongsTo(User::class, 'user_id');
     }
 }
