@@ -4,7 +4,7 @@
         <div class="row">
             @foreach ($categories as $category)
                 <div class="col-md-4">
-                    <a href="{{ route('category.spesific', $category->slug) }}">
+                    <a href="{{ route('post', ['category' => $category->slug]) }}">
                         <div class="card bg-dark text-white">
                             <img src="https://source.unsplash.com/500x500/?{{ $category->name }}" class="card-img"
                                 alt="{{ $category->name }}">

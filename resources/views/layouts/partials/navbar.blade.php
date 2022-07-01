@@ -15,7 +15,7 @@
                         href="{{ route('/') }}">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->segment(1) == 'posts' ? 'active' : '' }}"
+                    <a class="nav-link {{ (request()->segment(1) == 'posts' ? 'active' : '' || request()->segment(1) == 'post') ? 'active' : '' }}"
                         href="{{ route('post') }}">Blog</a>
                 </li>
                 <li class="nav-item">
