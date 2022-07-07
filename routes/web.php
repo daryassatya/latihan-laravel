@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PostController;
 use App\Models\Category;
 use App\Models\User;
@@ -27,6 +28,9 @@ Route::get('/', function () {
         'title' => "Home",
     ]);
 })->name('/');
+
+Route::get('/login', [AuthController::class, 'index'])->name('login');
+Route::get('/register', [AuthController::class, 'register'])->name('register');
 
 Route::get('/posts', [PostController::class, 'index'])->name('post');
 Route::get('/posts/{post:slug}', [PostController::class, 'detail'])->name('post.detail');
