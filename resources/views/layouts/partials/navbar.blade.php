@@ -27,13 +27,38 @@
                         href="{{ route('about') }}">About</a>
                 </li>
             </ul>
+
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a href="{{ route('login') }}"
-                        class="nav-link {{ request()->segment(1) == 'login' ? 'active' : '' }}"><i
-                            class="bi bi-box-arrow-in-right"></i> Login</a>
-                </li>
+                @auth
+                    <div class="dropdown">
+                        <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton1"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Wellcome Back, {{ auth()->user()->name }}
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li><a class="dropdown-item" href="{{ route('dashboard') }}"><i
+                                        class="bi bi-layout-text-sidebar-reverse"></i> My
+                                    Dashboard</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <form action="{{ route('logout') }}" method="post">
+                                @csrf
+                                <li><button type="submit" class="dropdown-item"><i class="bibi-box-arrow-right"></i>
+                                        Logout</button>
+                                </li>
+                            </form>
+                        </ul>
+                    </div>
+                @else
+                    <li class="nav-item">
+                        <a href="{{ route('login') }}"
+                            class="nav-link {{ request()->segment(1) == 'login' ? 'active' : '' }}"><i
+                                class="bi bi-box-arrow-in-right"></i> Login</a>
+                    </li>
+                @endauth
             </ul>
+
         </div>
     </div>
 </nav>
