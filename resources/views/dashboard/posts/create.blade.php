@@ -4,29 +4,60 @@
         <h1>Create New Post</h1>
     </div>
 
+    @if (session()->has('failed'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ session('failed') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
     <form method="post" action="{{ route('dashboard.posts.store') }}">
         @csrf
-        <div class="col-lg-8">
+        <div class="col-lg-8 mb-5">
             <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="title" name="title">
+                <input type="text" class="form-control @error('title') is-invalid @enderror" id="title"
+                    name="title" value="{{ old('title') }}" required>
+                @error('title')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
             </div>
             <div class="mb-3">
                 <label for="slug" class="form-label">Slug</label>
-                <input type="text" class="form-control" id="slug" name="slug" readonly>
+                <input type="text" class="form-control @error('slug') is-invalid @enderror" id="slug" name="slug"
+                    value="{{ old('slug') }}" readonly required>
+                @error('slug')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
             </div>
             <div class="mb-3">
                 <label for="slug" class="form-label">Slug</label>
-                <select class="form-select" name="category">
-                    <option selected>--- Select Post Category ---</option>
+                <select class="form-select @error('category_id') is-invalid @enderror" name="category_id" id="category_id"
+                    required>
+                    <option value="">--- Select Post Category ---</option>
                     @foreach ($categories as $category)
-                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                        <option value="{{ $category->id }}" @if (old('category_id') == $category->id) selected @endif>
+                            {{ $category->name }}</option>
                     @endforeach
                 </select>
+                @error('category_id')
+                    <div id="error" class="invalid-feedback d-block">
+                        {{ $message }}
+                    </div>
+                @enderror
             </div>
             <div class="mb-3">
-                <label for="body" class="form-label">Slug</label>
-                <input id="body" type="hidden" name="body">
+                <label for="body" class="form-label">Text Body</label>
+                @error('body')
+                    <div class="alert alert-danger" role="alert">
+                        {{ $message }}
+                    </div>
+                @enderror
+                <input id="body" type="hidden" name="body" value="{{ old('body') }}">
                 <trix-editor input="body"></trix-editor>
             </div>
             <button type="submit" class="btn btn-primary">Create Post</button>
