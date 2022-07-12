@@ -52,6 +52,12 @@ class Post extends Model
             });
         });
     }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
 }
 
 // Coding dibawah ini, Jangan diUncomment !
