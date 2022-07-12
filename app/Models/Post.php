@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use Cviebrock\EloquentSluggable\Sluggable;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
-    use HasFactory;
+    use HasFactory, Sluggable;
 
     //Bisa menggunakan ini:
     // protected $fillable = ['title', 'excerpt', 'body']; // Selain ini maka TIDAK BOLEH diisi/diubah
@@ -16,6 +18,20 @@ class Post extends Model
     protected $guarded = ['id']; // Selain ini maka BOLEH diisi/diubah
 
     protected $with = ['category', 'author']; // Eager load, agar tidak perlu loop berulang2
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'title',
+            ],
+        ];
+    }
 
     public function category()
     {
@@ -51,11 +67,6 @@ class Post extends Model
                 $query->where('username', $author);
             });
         });
-    }
-
-    public function getRouteKeyName()
-    {
-        return 'slug';
     }
 
 }

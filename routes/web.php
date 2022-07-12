@@ -81,6 +81,10 @@ Route::middleware(['guest'])->group(function () {
 Route::middleware(['auth'])->group(function () {
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    //Api
+    Route::get('/dashboard/posts/create-slug', [DashboardPostController::class, 'checkSlug']);
+
     Route::resource('/dashboard/posts', DashboardPostController::class)->names([
         'index' => 'dashboard.posts.index',
         'create' => 'dashboard.posts.create',
@@ -89,7 +93,6 @@ Route::middleware(['auth'])->group(function () {
         'edit' => 'dashboard.posts.edit',
         'update' => 'dashboard.posts.update',
         'destroy' => 'dashboard.posts.destroy',
-
     ]);
 
 });

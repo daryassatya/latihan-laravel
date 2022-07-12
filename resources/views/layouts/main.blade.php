@@ -16,6 +16,7 @@
     {{-- My Login Style --}}
     <link rel="stylesheet" href="/css/signin.css">
 
+
     <title>Daryas Blog | {{ $title }}</title>
 </head>
 
