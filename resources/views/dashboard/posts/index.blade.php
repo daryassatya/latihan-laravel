@@ -11,7 +11,7 @@
         </div>
     @endif
 
-    <div class="table-responsive col-lg-8">
+    <div class="table-responsive col-lg-9">
         <a href="{{ route('dashboard.posts.create') }}" class="btn btn-primary mb-3">Create New Post</a>
         <table class="table table-striped table-sm">
             <thead>
@@ -33,8 +33,12 @@
                                     data-feather="eye"></span></a>
                             <a href="{{ route('dashboard.posts.edit', $post->slug) }}" class="badge bg-warning"><span
                                     data-feather="edit"></span></a>
-                            <a href="{{ route('dashboard.posts.destroy', $post->slug) }}" class="badge bg-danger"><span
-                                    data-feather="x-circle"></span></a>
+                            <form action="{{ route('dashboard.posts.destroy', $post->slug) }}" method="post"
+                                class="d-inline">
+                                @csrf @method('delete')
+                                <button class="badge bg-danger border-0" onclick="return confirm('Are you sure?')"><span
+                                        data-feather="x-circle"></span></button>
+                            </form>
                         </td>
                     </tr>
                 @endforeach

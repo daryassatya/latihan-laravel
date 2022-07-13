@@ -1,7 +1,7 @@
 @extends('dashboard.layouts.main')
 @section('container')
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1>Create New Post</h1>
+        <h1>Edit Post</h1>
     </div>
 
     @if (session()->has('failed'))
@@ -11,13 +11,13 @@
         </div>
     @endif
 
-    <form method="post" action="{{ route('dashboard.posts.store') }}">
-        @csrf
+    <form method="post" action="{{ route('dashboard.posts.update', $post->slug) }}">
+        @csrf @method('patch')
         <div class="col-lg-8 mb-5">
             <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
                 <input type="text" class="form-control @error('title') is-invalid @enderror" id="title"
-                    name="title" value="{{ old('title') }}" required>
+                    name="title" value="{{ old('title', $post->title) }}" required>
                 @error('title')
                     <div class="invalid-feedback">
                         {{ $message }}
@@ -27,7 +27,7 @@
             <div class="mb-3">
                 <label for="slug" class="form-label">Slug</label>
                 <input type="text" class="form-control @error('slug') is-invalid @enderror" id="slug" name="slug"
-                    value="{{ old('slug') }}" required>
+                    value="{{ old('slug', $post->slug) }}" required>
                 @error('slug')
                     <div class="invalid-feedback">
                         {{ $message }}
@@ -40,7 +40,7 @@
                     required>
                     <option value="">--- Select Post Category ---</option>
                     @foreach ($categories as $category)
-                        <option value="{{ $category->id }}" @if (old('category_id') == $category->id) selected @endif>
+                        <option value="{{ $category->id }}" @if (old('category_id', $post->category_id) == $category->id) selected @endif>
                             {{ $category->name }}</option>
                     @endforeach
                 </select>
@@ -57,10 +57,10 @@
                         {{ $message }}
                     </div>
                 @enderror
-                <input id="body" type="hidden" name="body" value="{{ old('body') }}">
+                <input id="body" type="hidden" name="body" value="{{ old('body', $post->body) }}">
                 <trix-editor input="body"></trix-editor>
             </div>
-            <button type="submit" class="btn btn-primary">Create Post</button>
+            <button type="submit" class="btn btn-primary">Update Post</button>
         </div>
     </form>
     <script>
