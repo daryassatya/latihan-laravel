@@ -25,8 +25,16 @@
     {{-- Akan mengahsilkan false jika 0 --}}
     @if ($posts->count())
         <div class="card mb-3">
-            <img src="https://source.unsplash.com/1200x400/?{{ $posts[0]->category->name }}" class="card-img-top"
-                alt="{{ $posts[0]->category->name }}">
+            @if ($posts[0]->image)
+                <div style="max-height: 350px; overflow:hidden">
+                    <img src="{{ asset('storage/' . $posts[0]->image) }}" alt="{{ $posts[0]->category->name }}"
+                        class="card-img-top">
+                </div>
+            @else
+                <img src="https://source.unsplash.com/1200x400/?{{ $posts[0]->category->name }}" class="card-img-top"
+                    alt="{{ $posts[0]->category->name }}">
+            @endif
+
             <div class="card-body text-center">
                 <a href="{{ route('post.detail', $posts[0]->slug) }}" class="text-decoration-none text-dark">
                     <h3 class="card-title">{{ $posts[0]->title }}</h3>
@@ -45,7 +53,6 @@
             </div>
         </div>
 
-
         <div class="container">
             <div class="row">
                 @foreach ($posts->skip(1) as $post)
@@ -55,8 +62,14 @@
                                 <a href="{{ route('post', ['category' => $posts[0]->category->slug]) }}"
                                     class="text-decoration-none text-white">{{ $post->category->name }}</a>
                             </div>
-                            <img src="https://source.unsplash.com/500x400/?{{ $post->category->name }}"
-                                class="card-img-top" alt="{{ $post->category->name }}">
+                            @if ($post->image)
+                                <img src="{{ asset('storage/' . $post->image) }}" alt="{{ $post->category->name }}"
+                                    class="card-img-top">
+                            @else
+                                <img src="https://source.unsplash.com/500x400/?{{ $post->category->name }}"
+                                    class="card-img-top" alt="{{ $post->category->name }}">
+                            @endif
+
                             <div class="card-body">
                                 <h5 class="card-title">{{ $post->title }}</h5>
                                 <p>By. <a href="{{ route('post', ['author' => $post->author->username]) }}"

@@ -47,12 +47,18 @@ class DashboardPostController extends Controller
      */
     public function store(Request $request)
     {
+
         $validatedData = $request->validate([
             'title' => 'required|max:255',
             'slug' => 'required|unique:posts',
             'category_id' => 'required',
+            'image' => 'image|file|max:1024',
             'body' => 'required',
         ]);
+
+        if($request->file('image')){
+            $validatedData['image'] = $request->file('image')->store('post-images');
+        }
 
         $validatedData['user_id'] = auth()->user()->id;
         $validatedData['excerpt'] = Str::limit(strip_tags($request->body), 150, '...'); //strip_tags untuk menghilangkan tag html
@@ -60,7 +66,7 @@ class DashboardPostController extends Controller
         try {
             Post::create($validatedData);
             return redirect()->route('dashboard.posts.index')->with(['success' => 'New post has been added!']);
-        } catch (\Throwable $th) {
+        } catch (\Throwable$th) {
             return redirect()->back()->with(['failed' => $th->getMessage()]);
         }
 
@@ -126,7 +132,7 @@ class DashboardPostController extends Controller
         try {
             Post::where('id', $post->id)->update($validatedData);
             return redirect()->route('dashboard.posts.index')->with(['success' => 'Post has been edited!']);
-        } catch (\Throwable $th) {
+        } catch (\Throwable$th) {
             return redirect()->back()->with(['failed' => $th->getMessage()]);
         }
 
@@ -143,7 +149,7 @@ class DashboardPostController extends Controller
         try {
             Post::destroy($post->id);
             return redirect()->route('dashboard.posts.index')->with(['success' => 'Post has been deleted!']);
-        } catch (\Throwable $th) {
+        } catch (\Throwable$th) {
             return redirect()->back()->with(['failed' => $th->getMessage()]);
         }
     }

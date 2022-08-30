@@ -11,7 +11,7 @@
         </div>
     @endif
 
-    <form method="post" action="{{ route('dashboard.posts.store') }}">
+    <form method="post" action="{{ route('dashboard.posts.store') }}" enctype="multipart/form-data">
         @csrf
         <div class="col-lg-8 mb-5">
             <div class="mb-3">
@@ -35,7 +35,7 @@
                 @enderror
             </div>
             <div class="mb-3">
-                <label for="slug" class="form-label">Slug</label>
+                <label for="category_id" class="form-label">Category</label>
                 <select class="form-select @error('category_id') is-invalid @enderror" name="category_id" id="category_id"
                     required>
                     <option value="">--- Select Post Category ---</option>
@@ -45,6 +45,16 @@
                     @endforeach
                 </select>
                 @error('category_id')
+                    <div id="error" class="invalid-feedback d-block">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
+            <div class="mb-3">
+                <label for="image" class="form-label">Post Image</label>
+                <input class="form-control @error('image') is-invalid @enderror" type="file" id="image"
+                    name="image">
+                @error('image')
                     <div id="error" class="invalid-feedback d-block">
                         {{ $message }}
                     </div>
