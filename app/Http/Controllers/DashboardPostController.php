@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 //Packages
@@ -56,7 +57,7 @@ class DashboardPostController extends Controller
             'body' => 'required',
         ]);
 
-        if($request->file('image')){
+        if ($request->file('image')) {
             $validatedData['image'] = $request->file('image')->store('post-images');
         }
 
@@ -112,11 +113,10 @@ class DashboardPostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        // dd($request->slug);
         $rules = [
             'title' => 'required|max:255',
             'category_id' => 'required',
-            'slug' => 'required|unique:posts',
+            'image' => 'image|file|max:1024',
             'body' => 'required',
         ];
 
@@ -125,6 +125,13 @@ class DashboardPostController extends Controller
         }
 
         $validatedData = $request->validate($rules);
+
+        if ($request->file('image')) {
+            if ($post->image) {
+                Storage::delete($post->image);
+            }
+            $validatedData['image'] = $request->file('image')->store('post-images');
+        }
 
         $validatedData['user_id'] = auth()->user()->id;
         $validatedData['excerpt'] = Str::limit(strip_tags($request->body), 150, '...'); //strip_tags untuk menghilangkan tag html
@@ -147,6 +154,10 @@ class DashboardPostController extends Controller
     public function destroy(Post $post)
     {
         try {
+            if ($post->image) {
+                Storage::delete($post->image);
+            }
+
             Post::destroy($post->id);
             return redirect()->route('dashboard.posts.index')->with(['success' => 'Post has been deleted!']);
         } catch (\Throwable$th) {

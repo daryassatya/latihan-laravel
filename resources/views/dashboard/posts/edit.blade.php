@@ -11,7 +11,7 @@
         </div>
     @endif
 
-    <form method="post" action="{{ route('dashboard.posts.update', $post->slug) }}">
+    <form method="post" action="{{ route('dashboard.posts.update', $post->slug) }}" enctype="multipart/form-data">
         @csrf @method('patch')
         <div class="col-lg-8 mb-5">
             <div class="mb-3">
@@ -45,6 +45,18 @@
                     @endforeach
                 </select>
                 @error('category_id')
+                    <div id="error" class="invalid-feedback d-block">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
+            <div class="mb-3">
+                <label for="image" class="form-label">Post Image</label>
+                <img class="img-preview img-fluid mb-3 d-block"
+                    @if ($post->image) src="{{ asset('storage/' . $post->image) }}" @endif>
+                <input class="form-control @error('image') is-invalid @enderror" type="file" id="image"
+                    name="image">
+                @error('image')
                     <div id="error" class="invalid-feedback d-block">
                         {{ $message }}
                     </div>

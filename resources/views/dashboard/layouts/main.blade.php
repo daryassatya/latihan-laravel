@@ -56,6 +56,26 @@
         integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous">
     </script>
     <script src="/js/dashboard.js"></script>
+    <script>
+        const image = document.querySelector('#image');
+        const imgPreview = document.querySelector('.img-preview');
+        imgPreview.style.display = 'block';
+        image.addEventListener('change', function(e) {
+
+            //Cara 1
+            // const ofReader = new FileReader();
+            // ofReader.readAsDataURL(e.target.files[0])
+
+            // ofReader.onload = function(e) {
+            //     imgPreview.src = e.target.result;
+            // }
+
+            //Cara 2
+            const blob = URL.createObjectURL(e.target.files[0]);
+            imgPreview.src = blob;
+            console.log(blob);
+        });
+    </script>
 </body>
 
 </html>
