@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminCategoryController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DashboardPostController;
@@ -95,6 +96,27 @@ Route::middleware(['auth'])->group(function () {
         'destroy' => 'dashboard.posts.destroy',
     ]);
 
+    Route::resource('/dashboard/categories', AdminCategoryController::class)->names([
+        'index' => 'dashboard.categories.index',
+        'create' => 'dashboard.categories.create',
+        'store' => 'dashboard.categories.store',
+        'edit' => 'dashboard.categories.edit',
+        'update' => 'dashboard.categories.update',
+        'destroy' => 'dashboard.categories.destroy',
+    ]);
+
+    // Middleware Pengecekan ADMIN
+    Route::middleware(['is-admin'])->group(function () {
+        Route::resource('/dashboard/categories', AdminCategoryController::class)->names([
+            'index' => 'dashboard.categories.index',
+            'create' => 'dashboard.categories.create',
+            'store' => 'dashboard.categories.store',
+            'edit' => 'dashboard.categories.edit',
+            'update' => 'dashboard.categories.update',
+            'destroy' => 'dashboard.categories.destroy',
+        ]);
+
+    });
 });
 
 // Tempat Menyimpan Codingan Route Lama

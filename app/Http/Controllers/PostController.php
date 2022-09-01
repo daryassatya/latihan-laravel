@@ -12,19 +12,14 @@ class PostController extends Controller
 {
     public function index()
     {
-        /*
-        dd(request('search')); //untuk request, saya aian menjadikannya sebuah objek dengan menambahkan Request pada parameter dan menambahkan
-        use Illuminate\Http\Request;
-         */
-
         $title = '';
         if (request('author')) {
             $author = User::firstWhere('username', request('author'));
-            $title = 'Posts By Author : ' . $author->name;
+            $title += 'Posts By Author : ' . $author->name;
         }
         if (request('category')) {
             $category = Category::firstWhere('slug', request('category'));
-            $title = 'Posts in : ' . $category->name;
+            $title += ' | Posts in : ' . $category->name;
         }
         return view('posts', [
             'title' => $title,
